@@ -1,5 +1,6 @@
 ﻿namespace Contact.Domain;
 
+// Todo: should we move this to Infrastructure or API?
 public class SwaggerExample : ISchemaFilter
 {
     public void Apply(OpenApiSchema schema, SchemaFilterContext context)

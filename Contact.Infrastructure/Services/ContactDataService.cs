@@ -2,6 +2,10 @@
 
 public class ContactDataService
 {
+    //Todo: Should we consider implementing the IRepository pattern?
+    //      It would also allow us to use the repository in the API directly, for the GET operations.
+    //      To be able to push this into our domain, we also need to replace the usage of IResult, which is infrastructure specific.
+
     private readonly ContactDb contactDb;
     private readonly IValidator<ContactRecord> validator;
     private readonly ILogger<ContactDataService> logger;

@@ -23,10 +23,11 @@ public class ErrorHandlerMiddleware
         }
         catch (Exception error)
         {
-            _logger.LogError("An Error Occured", error);
+            // Todo: We could enrich the logs with additional attributes (like Request.Path), route params, headers, other?
+            _logger.LogError(error, "An error occured for {url}", context.Request.Path);
+            
             HttpResponse response = context.Response;
             response.ContentType = "application/json";
-
             response.StatusCode = error switch
             {
                 BadHttpRequestException => (int)HttpStatusCode.BadRequest,
@@ -35,6 +36,7 @@ public class ErrorHandlerMiddleware
                 _ => (int)HttpStatusCode.InternalServerError,// unhandled error
             };
 
+            // Todo: We should consider not serializing the exception message to the client?
             var result = JsonSerializer.Serialize(new { message = error?.Message });
             await response.WriteAsync(result);
         }
